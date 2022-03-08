@@ -1,38 +1,53 @@
-
-<?php require 'actions/users/securityAction.php'; ?>
+<?php 
+    session_start();
+    require('actions/questions/showAllQuestionsAction.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'includes/head.php'; ?>
 <body>
     <?php include 'includes/navbar.php'; ?>
     <br><br>
-    <form class="container" method="POST">
-
-        <?php if(isset($errorMsg)) : 
-                echo '<div class="alert alert-danger" role="alert">' . $errorMsg . '</div>';
-              endif;
-        ?>
+    <div class="container">
     
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Pseudo</label>
-            <input type="text" class="form-control" name="pseudo">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Nom</label>
-            <input type="text" class="form-control" name="lastname">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Prénom</label>
-            <input type="text" class="form-control" name="firstname">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-        <button type="submit" class="btn btn-primary" name="validate">S'inscrire</button>
-        <br><br>
-        <a href="login.php"><p>J'ai déjà un compte, je me connecte</p></a>
-   </form>
+        <form method="GET">
+
+            <div class="form-group row">
+
+                <div class="col-8">
+                    <input type="search" name="search" class="form-control">
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-success" type="submit">Rechercher</button>
+                </div>
+
+            </div>
+        </form>
+
+        <br>
+
+        <?php 
+            while($question = $getAllQuestions->fetch()){
+                ?>
+                <div class="card">
+                    <div class="card-header">
+                        <a href="article.php?id=<?= $question['id']; ?>">
+                            <?= $question['titre']; ?>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <?= $question['description']; ?>
+                    </div>
+                    <div class="card-footer">
+                        Publié par <a href="profile.php?id=<?= $question['id_auteur']; ?>"><?= $question['pseudo_auteur']; ?></a> le <?= $question['date_publication']; ?>
+                    </div>
+                </div>
+                <br>
+                <?php
+            }
+        ?>
+
+    </div>  
 
 </body>
 </html>

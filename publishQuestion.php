@@ -36,6 +36,6 @@
     
             <button type="submit" class="btn btn-primary" name="validate">Publier la question</button>
             <br><br>
-    </form>
+        </form>
     </body>
 </html>
